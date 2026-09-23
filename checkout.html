@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickBite - Checkout</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .checkout-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .checkout-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .checkout-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .checkout-box input,
+        .checkout-box textarea,
+        .checkout-box select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .checkout-box textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .place-order {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 8px;
+            background: #ff6b35;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .place-order:hover {
+            opacity: 0.9;
+        }
+
+        .success-message {
+            display: none;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            text-align: center;
+        }
+
+        @media (max-width: 700px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🍔 QuickBite</h1>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="cart.html">Cart</a>
+        </nav>
+    </header>
+
+    <main class="checkout-container">
+
+        <h1>Checkout</h1>
+
+        <div class="checkout-grid">
+
+            <!-- Customer Details -->
+            <div class="checkout-box">
+
+                <h2>Delivery Details</h2>
+
+                <form id="checkoutForm">
+
+                    <label>Full Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                    <label>Phone Number</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="Enter your phone number"
+                        required
+                    >
+
+                    <label>Delivery Address</label>
+                    <textarea
+                        id="address"
+                        placeholder="Enter your delivery address"
+                        required
+                    ></textarea>
+
+                    <label>Payment Method</label>
+
+                    <select id="payment" required>
+                        <option value="">Select payment method</option>
+                        <option value="Cash on Delivery">Cash on Delivery</option>
+                        <option value="UPI">UPI</option>
+                        <option value="Card">Credit / Debit Card</option>
+                    </select>
+
+                    <button type="submit" class="place-order">
+                        Place Order
+                    </button>
+
+                </form>
+
+                <div id="successMessage" class="success-message">
+                    <h2>🎉 Order Placed Successfully!</h2>
+                    <p>Thank you for ordering from QuickBite.</p>
+                    <p>Your food will be delivered soon.</p>
+                </div>
+
+            </div>
+
+            <!-- Order Summary -->
+            <div class="checkout-box">
+
+                <h2>Order Summary</h2>
+
+                <div id="orderItems"></div>
+
+                <div class="total">
+                    <span>Total</span>
+                    <span>₹<span id="totalAmount">0</span></span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        function loadOrder() {
+
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            const orderItems = document.getElementById("orderItems");
+            const totalAmount = document.getElementById("totalAmount");
+
+            orderItems.innerHTML = "";
+
+            let total = 0;
+
+            if (cart.length === 0) {
+
+                orderItems.innerHTML =
+                    "<p>Your cart is empty.</p>";
+
+                totalAmount.textContent = "0";
+
+                return;
+            }
+
+            cart.forEach(item => {
+
+                const quantity = item.quantity || 1;
+                const price = Number(item.price) || 0;
+
+                const itemTotal = price * quantity;
+
+                total += itemTotal;
+
+                const div = document.createElement("div");
+
+                div.className = "order-item";
+
+                div.innerHTML = `
+                    <span>
+                        ${item.name} × ${quantity}
+                    </span>
+                    <span>
+                        ₹${itemTotal}
+                    </span>
+                `;
+
+                orderItems.appendChild(div);
+
+            });
+
+            totalAmount.textContent = total;
+        }
+
+        document
+            .getElementById("checkoutForm")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+                const name =
+                    document.getElementById("name").value;
+
+                const phone =
+                    document.getElementById("phone").value;
+
+                const address =
+                    document.getElementById("address").value;
+
+                const payment =
+                    document.getElementById("payment").value;
+
+                if (!name || !phone || !address || !payment) {
+                    alert("Please fill in all details.");
+                    return;
+                }
+
+                localStorage.removeItem("cart");
+
+                document.getElementById("checkoutForm").style.display =
+                    "none";
+
+                document.getElementById("successMessage").style.display =
+                    "block";
+
+                document.getElementById("orderItems").innerHTML =
+                    "<p>Order confirmed ✓</p>";
+
+                document.getElementById("totalAmount").textContent = "0";
+            });
+
+        loadOrder();
+    </script>
+
+</body>
+</html>
