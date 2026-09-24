@@ -1,48 +1,59 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>QuickBite - Checkout</title>
 
     <link rel="stylesheet" href="css/style.css">
 
     <style>
         .checkout-container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 40px auto;
             padding: 20px;
         }
 
-        .checkout-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
+        .checkout-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
         }
 
-        .checkout-box {
-            background: #fff;
+        .checkout-section {
+            background: #ffffff;
             padding: 25px;
+            margin-bottom: 25px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
 
-        .checkout-box h2 {
+        .checkout-section h2 {
             margin-bottom: 20px;
         }
 
-        .checkout-box input,
-        .checkout-box textarea,
-        .checkout-box select {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-sizing: border-box;
+        .form-group {
+            margin-bottom: 15px;
         }
 
-        .checkout-box textarea {
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
             min-height: 100px;
             resize: vertical;
         }
@@ -50,232 +61,343 @@
         .order-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+            align-items: center;
+            padding: 15px 0;
             border-bottom: 1px solid #eee;
         }
 
-        .total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 20px;
+        .order-item:last-child {
+            border-bottom: none;
         }
 
-        .place-order {
+        .item-name {
+            font-weight: bold;
+        }
+
+        .item-info {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .item-total {
+            font-weight: bold;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 22px;
+            font-weight: bold;
+            padding-top: 20px;
+            margin-top: 10px;
+            border-top: 2px solid #333;
+        }
+
+        .place-order-btn {
             width: 100%;
-            padding: 14px;
-            margin-top: 20px;
+            padding: 15px;
+            background: #28a745;
+            color: white;
             border: none;
             border-radius: 8px;
-            background: #ff6b35;
-            color: white;
-            font-size: 17px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
         }
 
-        .place-order:hover {
-            opacity: 0.9;
+        .place-order-btn:hover {
+            background: #218838;
         }
 
-        .success-message {
+        .success-box {
             display: none;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 8px;
-            background: #e8f5e9;
-            color: #2e7d32;
-            text-align: center;
+            background: #f0fff4;
+            border: 2px solid #28a745;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 30px;
         }
 
-        @media (max-width: 700px) {
-            .checkout-grid {
-                grid-template-columns: 1fr;
-            }
+        .success-title {
+            color: #218838;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .order-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .order-info p {
+            margin: 10px 0;
+        }
+
+        .order-details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .order-details-table th,
+        .order-details-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .order-details-table th {
+            background: #f5f5f5;
+        }
+
+        .order-total {
+            text-align: right;
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #fff3cd;
+            color: #856404;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .back-home-btn {
+            display: block;
+            width: fit-content;
+            margin: 25px auto 0;
+            padding: 12px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .back-home-btn:hover {
+            background: #0056b3;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 30px;
         }
     </style>
 </head>
 
 <body>
 
-    <header>
-        <h1>🍔 VKQuickBite</h1>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            VKQuickBite
+        </div>
 
-        <nav>
+        <div>
             <a href="index.html">Home</a>
             <a href="menu.html">Menu</a>
             <a href="cart.html">Cart</a>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
-    <main class="checkout-container">
+    <div class="checkout-container">
 
         <h1>Checkout</h1>
 
-        <div class="checkout-grid">
+        <!-- Delivery Details -->
+        <div id="checkoutForm">
 
-            <!-- Customer Details -->
-            <div class="checkout-box">
+            <div class="checkout-section">
+                <h2>🚚 Delivery Details</h2>
 
-                <h2>Delivery Details</h2>
+                <form id="orderForm">
 
-                <form id="checkoutForm">
+                    <div class="form-group">
+                        <label for="customerName">
+                            Full Name
+                        </label>
 
-                    <label>Full Name</label>
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="Enter your name"
-                        required
-                    >
+                        <input
+                            type="text"
+                            id="customerName"
+                            placeholder="Enter your name"
+                            required
+                        >
+                    </div>
 
-                    <label>Phone Number</label>
-                    <input
-                        type="tel"
-                        id="phone"
-                        placeholder="Enter your phone number"
-                        required
-                    >
+                    <div class="form-group">
+                        <label for="customerPhone">
+                            Phone Number
+                        </label>
 
-                    <label>Delivery Address</label>
-                    <textarea
-                        id="address"
-                        placeholder="Enter your delivery address"
-                        required
-                    ></textarea>
+                        <input
+                            type="tel"
+                            id="customerPhone"
+                            placeholder="Enter your phone number"
+                            required
+                        >
+                    </div>
 
-                    <label>Payment Method</label>
+                    <div class="form-group">
+                        <label for="customerAddress">
+                            Delivery Address
+                        </label>
 
-                    <select id="payment" required>
-                        <option value="">Select payment method</option>
-                        <option value="Cash on Delivery">Cash on Delivery</option>
-                        <option value="UPI">UPI</option>
-                        <option value="Card">Credit / Debit Card</option>
-                    </select>
-
-                    <button type="submit" class="place-order">
-                        Place Order
-                    </button>
+                        <textarea
+                            id="customerAddress"
+                            placeholder="Enter your complete delivery address"
+                            required
+                        ></textarea>
+                    </div>
 
                 </form>
-
-                <div id="successMessage" class="success-message">
-                    <h2>🎉 Order Placed Successfully!</h2>
-                    <p>Thank you for ordering from QuickBite.</p>
-                    <p>Your food will be delivered soon.</p>
-                </div>
-
             </div>
 
-            <!-- Order Summary -->
-            <div class="checkout-box">
 
-                <h2>Order Summary</h2>
+            <!-- Cart Items -->
+            <div class="checkout-section">
 
-                <div id="orderItems"></div>
+                <h2>🛒 Order Summary</h2>
 
-                <div class="total">
+                <div id="checkoutItems">
+                    <!-- Items will be loaded by app.js -->
+                </div>
+
+                <div class="total-row">
                     <span>Total</span>
-                    <span>₹<span id="totalAmount">0</span></span>
+                    <span id="checkoutTotal">₹0</span>
                 </div>
 
             </div>
+
+
+            <!-- Place Order -->
+            <button
+                type="submit"
+                form="orderForm"
+                class="place-order-btn"
+            >
+                🛍️ Place Order
+            </button>
 
         </div>
 
-    </main>
 
-    <script>
-        function loadOrder() {
+        <!-- Order Success -->
+        <div id="successBox" class="success-box">
 
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            <div class="success-title">
+                🎉 Order Placed Successfully!
+            </div>
 
-            const orderItems = document.getElementById("orderItems");
-            const totalAmount = document.getElementById("totalAmount");
+            <p style="text-align:center;">
+                Thank you for ordering from <strong>VKQuickBite</strong>.
+            </p>
 
-            orderItems.innerHTML = "";
 
-            let total = 0;
+            <!-- Order Information -->
+            <div class="order-info">
 
-            if (cart.length === 0) {
+                <h2>📋 Order Information</h2>
 
-                orderItems.innerHTML =
-                    "<p>Your cart is empty.</p>";
+                <p>
+                    <strong>Order ID:</strong>
+                    <span id="successOrderId"></span>
+                </p>
 
-                totalAmount.textContent = "0";
+                <p>
+                    <strong>Order Date:</strong>
+                    <span id="successOrderDate"></span>
+                </p>
 
-                return;
-            }
-
-            cart.forEach(item => {
-
-                const quantity = item.quantity || 1;
-                const price = Number(item.price) || 0;
-
-                const itemTotal = price * quantity;
-
-                total += itemTotal;
-
-                const div = document.createElement("div");
-
-                div.className = "order-item";
-
-                div.innerHTML = `
-                    <span>
-                        ${item.name} × ${quantity}
+                <p>
+                    <strong>Order Status:</strong>
+                    <span class="status">
+                        🟡 Preparing
                     </span>
-                    <span>
-                        ₹${itemTotal}
-                    </span>
-                `;
+                </p>
 
-                orderItems.appendChild(div);
+            </div>
 
-            });
 
-            totalAmount.textContent = total;
-        }
+            <!-- Customer Information -->
+            <div class="order-info">
 
-        document
-            .getElementById("checkoutForm")
-            .addEventListener("submit", function(event) {
+                <h2>👤 Customer Details</h2>
 
-                event.preventDefault();
+                <p>
+                    <strong>Name:</strong>
+                    <span id="successCustomerName"></span>
+                </p>
 
-                const name =
-                    document.getElementById("name").value;
+                <p>
+                    <strong>Phone:</strong>
+                    <span id="successCustomerPhone"></span>
+                </p>
 
-                const phone =
-                    document.getElementById("phone").value;
+                <p>
+                    <strong>Address:</strong>
+                    <span id="successCustomerAddress"></span>
+                </p>
 
-                const address =
-                    document.getElementById("address").value;
+            </div>
 
-                const payment =
-                    document.getElementById("payment").value;
 
-                if (!name || !phone || !address || !payment) {
-                    alert("Please fill in all details.");
-                    return;
-                }
+            <!-- Ordered Items -->
+            <div class="order-info">
 
-                localStorage.removeItem("cart");
+                <h2>🍽️ Order Details</h2>
 
-                document.getElementById("checkoutForm").style.display =
-                    "none";
+                <table class="order-details-table">
 
-                document.getElementById("successMessage").style.display =
-                    "block";
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
 
-                document.getElementById("orderItems").innerHTML =
-                    "<p>Order confirmed ✓</p>";
+                    <tbody id="successOrderItems">
+                    </tbody>
 
-                document.getElementById("totalAmount").textContent = "0";
-            });
+                </table>
 
-        loadOrder();
-    </script>
+                <div class="order-total">
+                    Total:
+                    <span id="successTotal">₹0</span>
+                </div>
+
+            </div>
+
+
+            <p style="text-align:center;">
+                🚚 Your food will be prepared and delivered soon.
+            </p>
+
+
+            <a
+                href="index.html"
+                class="back-home-btn"
+            >
+                🏠 Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
 
 </body>
 </html>
+

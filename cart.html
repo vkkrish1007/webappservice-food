@@ -4,15 +4,16 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    <title>QuickBite - Cart</title>
+<title>VK QuickBite - Cart</title>
 
-    <link rel="stylesheet"
-          href="css/style.css">
+<link rel="stylesheet"
+      href="css/style.css">
+```
 
 </head>
 
@@ -20,38 +21,52 @@
 
 <header>
 
-    <div class="logo">
-        🍔 VK Karaikudi chettinadu
-    </div>
+```
+<div class="logo">
+    🍔 VK QuickBite
+</div>
 
-    <nav>
+<nav>
 
-        <a href="index.html">
-            Home
-        </a>
+    <a href="index.html">
+        Home
+    </a>
 
-        <a href="menu.html">
-            Menu
-        </a>
+    <a href="menu.html">
+        Menu
+    </a>
 
-        <a href="cart.html">
-            Cart 🛒
-        </a>
+    <a href="cart.html">
+        Cart 🛒
+        <span id="cartCount">0</span>
+    </a>
 
-    </nav>
+</nav>
 
 </header>
 
+<section class="cart-section">
 
-<section class="categories">
 
-    <h2>Your Cart</h2>
+<h2>Your Cart</h2>
 
-    <div id="cartItems"></div>
+<!-- Cart items will appear here -->
+<div id="cartItems"></div>
+
+
+<!-- Total -->
+<div class="cart-total">
 
     <h2>
-        Total: ₹<span id="total">0</span>
+        Total:
+        <span id="cartTotal">₹0</span>
     </h2>
+
+</div>
+
+
+<!-- Checkout -->
+<div class="cart-actions">
 
     <a href="checkout.html"
        class="btn">
@@ -60,43 +75,237 @@
 
     </a>
 
+</div>
+
 </section>
 
+<footer>
+
+
+<p>
+    © 2026 VK QuickBite
+</p>
+</footer>
+</footer>
+
+<script src="js/app.js"></script>
 
 <script>
 
-let cart =
-    JSON.parse(localStorage.getItem("cart")) || [];
+document.addEventListener("DOMContentLoaded", function () {
 
-let cartItems =
-    document.getElementById("cartItems");
-
-let total =
-    document.getElementById("total");
-
-let totalAmount = 0;
-
-
-cart.forEach(function(item) {
-
-    let div =
-        document.createElement("div");
-
-    div.className = "category";
-
-    div.innerHTML = `
-        <h3>${item.name}</h3>
-        <p>₹${item.price}</p>
-    `;
-
-    cartItems.appendChild(div);
-
-    totalAmount += item.price;
+    loadCart();
 
 });
 
 
-total.innerText = totalAmount;
+function loadCart() {
+
+    const cartItems =
+        document.getElementById("cartItems");
+
+    const cartTotal =
+        document.getElementById("cartTotal");
+
+
+    let cart =
+        JSON.parse(localStorage.getItem("cart")) || [];
+
+
+    // Empty cart
+    if (cart.length === 0) {
+
+        cartItems.innerHTML = `
+
+            <div class="empty-cart">
+
+                <h3>
+                    🛒 Your cart is empty
+                </h3>
+
+                <p>
+                    Please add food items from the menu.
+                </p>
+
+                <a href="menu.html"
+                   class="btn">
+
+                    🍔 Go to Menu
+
+                </a>
+
+            </div>
+
+        `;
+
+        cartTotal.textContent = "₹0";
+
+        return;
+
+    }
+
+
+    let total = 0;
+
+    cartItems.innerHTML = "";
+
+
+    cart.forEach(function (item, index) {
+
+        const subtotal =
+            Number(item.price) *
+            Number(item.quantity);
+
+
+        total += subtotal;
+
+
+        const itemDiv =
+            document.createElement("div");
+
+
+        itemDiv.className =
+            "cart-item";
+
+
+        itemDiv.innerHTML = `
+
+            <div class="cart-item-info">
+
+                <h3>
+                    ${item.name}
+                </h3>
+
+                <p>
+                    ₹${item.price}
+                </p>
+
+            </div>
+
+
+            <div class="cart-quantity">
+
+                <button
+                    onclick="decreaseQuantity(${index})">
+                    −
+                </button>
+
+                <span>
+                    ${item.quantity}
+                </span>
+
+                <button
+                    onclick="increaseQuantity(${index})">
+                    +
+                </button>
+
+            </div>
+
+
+            <div class="cart-subtotal">
+
+                ₹${subtotal}
+
+            </div>
+
+
+            <button
+                class="remove-btn"
+                onclick="removeItem(${index})">
+
+                🗑️
+
+            </button>
+
+        `;
+
+
+        cartItems.appendChild(itemDiv);
+
+    });
+
+
+    cartTotal.textContent =
+        "₹" + total;
+
+}
+
+
+// Increase quantity
+function increaseQuantity(index) {
+
+    let cart =
+        JSON.parse(localStorage.getItem("cart")) || [];
+
+
+    cart[index].quantity += 1;
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+    loadCart();
+
+    updateCartCount();
+
+}
+
+
+// Decrease quantity
+function decreaseQuantity(index) {
+
+    let cart =
+        JSON.parse(localStorage.getItem("cart")) || [];
+
+
+    if (cart[index].quantity > 1) {
+
+        cart[index].quantity -= 1;
+
+    } else {
+
+        cart.splice(index, 1);
+
+    }
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+    loadCart();
+
+    updateCartCount();
+
+}
+
+
+// Remove item
+function removeItem(index) {
+
+    let cart =
+        JSON.parse(localStorage.getItem("cart")) || [];
+
+
+    cart.splice(index, 1);
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+    loadCart();
+
+    updateCartCount();
+
+}
 
 </script>
 
