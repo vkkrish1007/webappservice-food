@@ -1,403 +1,379 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>QuickBite - Checkout</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
+    <title> VK QuickBite - Checkout</title>
 
-    <style>
-        .checkout-container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 20px;
-        }
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
 
-        .checkout-container h1 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .checkout-section {
-            background: #ffffff;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-
-        .checkout-section h2 {
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: bold;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
-        .form-group textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .order-item:last-child {
-            border-bottom: none;
-        }
-
-        .item-name {
-            font-weight: bold;
-        }
-
-        .item-info {
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .item-total {
-            font-weight: bold;
-        }
-
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 22px;
-            font-weight: bold;
-            padding-top: 20px;
-            margin-top: 10px;
-            border-top: 2px solid #333;
-        }
-
-        .place-order-btn {
-            width: 100%;
-            padding: 15px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .place-order-btn:hover {
-            background: #218838;
-        }
-
-        .success-box {
-            display: none;
-            background: #f0fff4;
-            border: 2px solid #28a745;
-            padding: 30px;
-            border-radius: 12px;
-            margin-top: 30px;
-        }
-
-        .success-title {
-            color: #218838;
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        .order-info {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .order-info p {
-            margin: 10px 0;
-        }
-
-        .order-details-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        .order-details-table th,
-        .order-details-table td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-
-        .order-details-table th {
-            background: #f5f5f5;
-        }
-
-        .order-total {
-            text-align: right;
-            font-size: 22px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 6px 12px;
-            background: #fff3cd;
-            color: #856404;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .back-home-btn {
-            display: block;
-            width: fit-content;
-            margin: 25px auto 0;
-            padding: 12px 20px;
-            background: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-        }
-
-        .back-home-btn:hover {
-            background: #0056b3;
-        }
-
-        .empty-cart {
-            text-align: center;
-            padding: 30px;
-        }
-    </style>
 </head>
+
 
 <body>
 
-    <!-- Navigation -->
-    <nav>
-        <div class="logo">
-            VKQuickBite
-        </div>
 
-        <div>
-            <a href="index.html">Home</a>
-            <a href="menu.html">Menu</a>
-            <a href="cart.html">Cart</a>
-        </div>
+<!-- =====================================
+     NAVBAR
+===================================== -->
+
+<header class="navbar">
+
+    <div class="logo">
+        🍔 QuickBite
+    </div>
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="menu.html">
+            Menu
+        </a>
+
+        <a href="cart.html">
+            Cart 🛒
+            <span id="cartCount">0</span>
+        </a>
+
     </nav>
 
-    <div class="checkout-container">
+</header>
 
-        <h1>Checkout</h1>
 
-        <!-- Delivery Details -->
-        <div id="checkoutForm">
 
-            <div class="checkout-section">
-                <h2>🚚 Delivery Details</h2>
+<!-- =====================================
+     CHECKOUT
+===================================== -->
 
-                <form id="orderForm">
+<main class="checkout-container">
+
+    <h1>
+        Checkout
+    </h1>
+
+
+    <div class="checkout-grid">
+
+
+        <!-- =================================
+             CUSTOMER DETAILS
+        ================================== -->
+
+        <section class="checkout-card">
+
+            <h2>
+                Customer Details
+            </h2>
+
+
+            <form id="orderForm">
+
+
+                <!-- NAME -->
+
+                <div class="form-group">
+
+                    <label for="customerName">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customerName"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label for="customerPhone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="customerPhone"
+                        placeholder="Enter 10 digit phone number"
+                        pattern="[0-9]{10}"
+                        maxlength="10"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- ADDRESS -->
+
+                <div class="form-group">
+
+                    <label for="customerAddress">
+                        Delivery Address
+                    </label>
+
+                    <textarea
+                        id="customerAddress"
+                        rows="4"
+                        placeholder="Enter complete delivery address"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+
+                <!-- =================================
+                     PAYMENT
+                ================================== -->
+
+                <h2>
+                    Payment Method
+                </h2>
+
+
+                <!-- COD -->
+
+                <div class="payment-option">
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="COD"
+                            checked
+                        >
+
+                        💵 Cash on Delivery
+
+                    </label>
+
+                </div>
+
+
+
+                <!-- UPI -->
+
+                <div class="payment-option">
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="UPI"
+                        >
+
+                        📱 UPI
+
+                    </label>
+
+                </div>
+
+
+
+                <!-- =================================
+                     UPI SECTION
+                ================================== -->
+
+                <div
+                    id="upiSection"
+                    class="upi-section"
+                    style="display:none;"
+                >
+
+                    <h3>
+                        💳 Pay using UPI
+                    </h3>
+
+
+                    <p>
+                        Scan the QR code using any UPI app
+                    </p>
+
+
+                    <!-- QR CODE -->
+
+                    <div class="upi-qr-box">
+
+                        <img
+                            src="assets/upi-qr.png"
+                            alt="QuickBite UPI QR Code"
+                            class="upi-qr"
+                        >
+
+                    </div>
+
+
+                    <p class="upi-payment-text">
+
+                        Scan and complete the payment.
+
+                    </p>
+
+
+
+                    <!-- UPI ID -->
 
                     <div class="form-group">
-                        <label for="customerName">
-                            Full Name
+
+                        <label for="upiId">
+                            UPI ID
                         </label>
 
                         <input
                             type="text"
-                            id="customerName"
-                            placeholder="Enter your name"
-                            required
+                            id="upiId"
+                            placeholder="example@upi"
                         >
+
                     </div>
 
-                    <div class="form-group">
-                        <label for="customerPhone">
-                            Phone Number
-                        </label>
 
-                        <input
-                            type="tel"
-                            id="customerPhone"
-                            placeholder="Enter your phone number"
-                            required
-                        >
-                    </div>
+                    <p class="upi-note">
 
-                    <div class="form-group">
-                        <label for="customerAddress">
-                            Delivery Address
-                        </label>
+                        After payment, enter your UPI ID
+                        and place the order.
 
-                        <textarea
-                            id="customerAddress"
-                            placeholder="Enter your complete delivery address"
-                            required
-                        ></textarea>
-                    </div>
+                    </p>
 
-                </form>
-            </div>
-
-
-            <!-- Cart Items -->
-            <div class="checkout-section">
-
-                <h2>🛒 Order Summary</h2>
-
-                <div id="checkoutItems">
-                    <!-- Items will be loaded by app.js -->
                 </div>
 
-                <div class="total-row">
-                    <span>Total</span>
-                    <span id="checkoutTotal">₹0</span>
-                </div>
+
+
+                <!-- =================================
+                     PLACE ORDER
+                ================================== -->
+
+                <button
+                    type="submit"
+                    class="place-order-btn"
+                >
+
+                    🛒 Place Order
+
+                </button>
+
+
+            </form>
+
+        </section>
+
+
+
+        <!-- =================================
+             ORDER SUMMARY
+        ================================== -->
+
+        <section class="checkout-card">
+
+            <h2>
+                Order Summary
+            </h2>
+
+
+            <div id="checkoutItems"></div>
+
+
+
+            <!-- SUBTOTAL -->
+
+            <div class="summary-row">
+
+                <span>
+                    Subtotal
+                </span>
+
+                <span id="checkoutSubtotal">
+                    ₹0
+                </span>
 
             </div>
 
 
-            <!-- Place Order -->
-            <button
-                type="submit"
-                form="orderForm"
-                class="place-order-btn"
-            >
-                🛍️ Place Order
-            </button>
 
-        </div>
+            <!-- DELIVERY -->
 
+            <div class="summary-row">
 
-        <!-- Order Success -->
-        <div id="successBox" class="success-box">
+                <span>
+                    Delivery
+                </span>
 
-            <div class="success-title">
-                🎉 Order Placed Successfully!
-            </div>
-
-            <p style="text-align:center;">
-                Thank you for ordering from <strong>VKQuickBite</strong>.
-            </p>
-
-
-            <!-- Order Information -->
-            <div class="order-info">
-
-                <h2>📋 Order Information</h2>
-
-                <p>
-                    <strong>Order ID:</strong>
-                    <span id="successOrderId"></span>
-                </p>
-
-                <p>
-                    <strong>Order Date:</strong>
-                    <span id="successOrderDate"></span>
-                </p>
-
-                <p>
-                    <strong>Order Status:</strong>
-                    <span class="status">
-                        🟡 Preparing
-                    </span>
-                </p>
+                <span id="deliveryCharge">
+                    ₹40
+                </span>
 
             </div>
 
 
-            <!-- Customer Information -->
-            <div class="order-info">
+            <hr>
 
-                <h2>👤 Customer Details</h2>
 
-                <p>
-                    <strong>Name:</strong>
-                    <span id="successCustomerName"></span>
-                </p>
 
-                <p>
-                    <strong>Phone:</strong>
-                    <span id="successCustomerPhone"></span>
-                </p>
+            <!-- TOTAL -->
 
-                <p>
-                    <strong>Address:</strong>
-                    <span id="successCustomerAddress"></span>
-                </p>
+            <div class="summary-total">
+
+                <span>
+                    Total
+                </span>
+
+                <span id="checkoutTotal">
+                    ₹0
+                </span>
 
             </div>
 
+        </section>
 
-            <!-- Ordered Items -->
-            <div class="order-info">
-
-                <h2>🍽️ Order Details</h2>
-
-                <table class="order-details-table">
-
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Price</th>
-                            <th>Qty</th>
-                            <th>Subtotal</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="successOrderItems">
-                    </tbody>
-
-                </table>
-
-                <div class="order-total">
-                    Total:
-                    <span id="successTotal">₹0</span>
-                </div>
-
-            </div>
-
-
-            <p style="text-align:center;">
-                🚚 Your food will be prepared and delivered soon.
-            </p>
-
-
-            <a
-                href="index.html"
-                class="back-home-btn"
-            >
-                🏠 Back to Home
-            </a>
-
-        </div>
 
     </div>
 
+</main>
 
-    <!-- JavaScript -->
-    <script src="js/app.js"></script>
+
+
+<!-- =====================================
+     FOOTER
+===================================== -->
+
+<footer>
+
+    <p>
+        © 2026 QuickBite. All Rights Reserved.
+    </p>
+
+</footer>
+
+
+
+<!-- =====================================
+     JAVASCRIPT
+===================================== -->
+
+<script src="js/app.js"></script>
+
 
 </body>
-</html>
 
+</html>

@@ -1,4 +1,3 @@
-```javascript
 // ========================================
 // QUICKBITE APP.JS
 // ========================================
@@ -12,28 +11,21 @@ function addToCart(name, price) {
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    const existingItem = cart.find(
-        item => item.name === name
-    );
+    const existingItem = cart.find(function (item) {
+        return item.name === name;
+    });
 
     if (existingItem) {
-
         existingItem.quantity += 1;
-
     } else {
-
         cart.push({
             name: name,
             price: Number(price),
             quantity: 1
         });
-
     }
 
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
+    localStorage.setItem("cart", JSON.stringify(cart));
 
     alert(name + " added to cart!");
 
@@ -50,24 +42,23 @@ function updateCartCount() {
     const cart =
         JSON.parse(localStorage.getItem("cart")) || [];
 
-    const totalQuantity = cart.reduce(
-        (total, item) => total + item.quantity,
-        0
-    );
+    let totalQuantity = 0;
+
+    cart.forEach(function (item) {
+        totalQuantity += Number(item.quantity);
+    });
 
     const cartCount =
         document.getElementById("cartCount");
 
     if (cartCount) {
-
         cartCount.textContent = totalQuantity;
-
     }
 }
 
 
 // ========================================
-// LOAD CHECKOUT PAGE
+// LOAD CHECKOUT
 // ========================================
 
 function loadCheckout() {
@@ -82,12 +73,9 @@ function loadCheckout() {
         return;
     }
 
-
     const cart =
         JSON.parse(localStorage.getItem("cart")) || [];
 
-
-    // Empty cart
     if (cart.length === 0) {
 
         checkoutItems.innerHTML = `
@@ -95,8 +83,7 @@ function loadCheckout() {
                 <h3>🛒 Your cart is empty</h3>
                 <p>Please add food items before checkout.</p>
 
-                <a href="menu.html"
-                   class="back-home-btn">
+                <a href="menu.html" class="back-home-btn">
                     🍔 Go to Menu
                 </a>
             </div>
@@ -107,26 +94,21 @@ function loadCheckout() {
         return;
     }
 
-
     let total = 0;
 
     checkoutItems.innerHTML = "";
 
-
-    cart.forEach(item => {
+    cart.forEach(function (item) {
 
         const subtotal =
-            Number(item.price) *
-            Number(item.quantity);
+            Number(item.price) * Number(item.quantity);
 
         total += subtotal;
-
 
         const itemDiv =
             document.createElement("div");
 
         itemDiv.className = "order-item";
-
 
         itemDiv.innerHTML = `
             <div>
@@ -144,15 +126,10 @@ function loadCheckout() {
             </div>
         `;
 
-
         checkoutItems.appendChild(itemDiv);
-
     });
 
-
-    checkoutTotal.textContent =
-        "₹" + total;
-
+    checkoutTotal.textContent = "₹" + total;
 }
 
 
@@ -169,13 +146,10 @@ function generateOrderId() {
         String(now.getMonth() + 1).padStart(2, "0") +
         String(now.getDate()).padStart(2, "0");
 
-
     const randomNumber =
         Math.floor(1000 + Math.random() * 9000);
 
-
-    return `QB-${date}-${randomNumber}`;
-
+    return "QB-" + date + "-" + randomNumber;
 }
 
 
@@ -187,70 +161,103 @@ function placeOrder(event) {
 
     event.preventDefault();
 
+    const nameElement =
+        document.getElementById("customerName");
+
+    const phoneElement =
+        document.getElementById("customerPhone");
+
+    const addressElement =
+        document.getElementById("customerAddress");
+
+    if (!nameElement || !phoneElement || !addressElement) {
+
+        alert("Customer details fields are missing.");
+
+        return;
+    }
 
     const name =
-        document.getElementById("customerName").value.trim();
+        nameElement.value.trim();
 
     const phone =
-        document.getElementById("customerPhone").value.trim();
+        phoneElement.value.trim();
 
     const address =
-        document.getElementById("customerAddress").value.trim();
-
+        addressElement.value.trim();
 
     const cart =
         JSON.parse(localStorage.getItem("cart")) || [];
 
-
     // Check cart
     if (cart.length === 0) {
 
-        alert(
-            "Your cart is empty. Please add food items first."
-        );
+        alert("Your cart is empty. Please add food items first.");
 
         return;
     }
 
-
-    // Check customer information
+    // Check customer details
     if (!name || !phone || !address) {
 
-        alert(
-            "Please enter all delivery details."
-        );
+        alert("Please enter all delivery details.");
 
         return;
     }
 
+    // Calculate subtotal
+    let subtotal = 0;
 
-    // Calculate total
-    let total = 0;
+    cart.forEach(function (item) {
 
-    cart.forEach(item => {
-
-        total +=
+        subtotal +=
             Number(item.price) *
             Number(item.quantity);
 
     });
 
+    // Delivery charge
+    const deliveryCharge = 40;
 
-    // Generate order
-    const orderId =
-        generateOrderId();
+    // Final total
+    const total =
+        subtotal + deliveryCharge;
 
+    // Payment method
+    const paymentElement =
+        document.querySelector(
+            'input[name="paymentMethod"]:checked'
+        );
 
-    const orderDate =
-        new Date();
+    const paymentMethod =
+        paymentElement
+            ? paymentElement.value
+            : "Cash on Delivery";
 
+    // UPI ID
+    const upiElement =
+        document.getElementById("upiId");
 
+    const upiId =
+        upiElement
+            ? upiElement.value.trim()
+            : "";
+
+    // Validate UPI
+    if (paymentMethod === "UPI" && !upiId) {
+
+        alert("Please enter your UPI ID.");
+
+        return;
+    }
+
+    // Create order
     const order = {
 
-        orderId: orderId,
+        orderId: generateOrderId(),
 
         orderDate:
-            orderDate.toLocaleString(),
+            new Date().toLocaleString(),
 
         customer: {
 
@@ -264,179 +271,59 @@ function placeOrder(event) {
 
         items: cart,
 
+        subtotal: subtotal,
+
+        deliveryCharge: deliveryCharge,
+
         total: total,
+
+        paymentMethod: paymentMethod,
+
+        upiId:
+            paymentMethod === "UPI"
+                ? upiId
+                : "",
 
         status: "Preparing"
 
     };
 
 
-    // Save complete order
+    // ========================================
+    // SAVE ORDER
+    // ========================================
+
     localStorage.setItem(
-        "lastOrder",
+        "latestOrder",
         JSON.stringify(order)
     );
 
+    // Also keep order history
+    const orders =
+        JSON.parse(
+            localStorage.getItem("orders")
+        ) || [];
 
-    // Display order
-    showOrderSuccess(order);
+    orders.push(order);
+
+    localStorage.setItem(
+        "orders",
+        JSON.stringify(orders)
+    );
 
 
-    // Clear cart
+    // Remove cart
     localStorage.removeItem("cart");
 
-
-    // Update cart count
     updateCartCount();
 
-}
 
+    // ========================================
+    // GO TO SUCCESS PAGE
+    // ========================================
 
-// ========================================
-// SHOW ORDER SUCCESS
-// ========================================
-
-function showOrderSuccess(order) {
-
-    const checkoutForm =
-        document.getElementById("checkoutForm");
-
-    const successBox =
-        document.getElementById("successBox");
-
-
-    if (checkoutForm) {
-
-        checkoutForm.style.display =
-            "none";
-
-    }
-
-
-    if (successBox) {
-
-        successBox.style.display =
-            "block";
-
-    }
-
-
-    // Order ID
-    document.getElementById(
-        "successOrderId"
-    ).textContent =
-        order.orderId;
-
-
-    // Date
-    document.getElementById(
-        "successOrderDate"
-    ).textContent =
-        order.orderDate;
-
-
-    // Customer
-    document.getElementById(
-        "successCustomerName"
-    ).textContent =
-        order.customer.name;
-
-
-    document.getElementById(
-        "successCustomerPhone"
-    ).textContent =
-        order.customer.phone;
-
-
-    document.getElementById(
-        "successCustomerAddress"
-    ).textContent =
-        order.customer.address;
-
-
-    // Items
-    const itemsContainer =
-        document.getElementById(
-            "successOrderItems"
-        );
-
-
-    itemsContainer.innerHTML = "";
-
-
-    order.items.forEach(item => {
-
-        const subtotal =
-            Number(item.price) *
-            Number(item.quantity);
-
-
-        const row =
-            document.createElement("tr");
-
-
-        row.innerHTML = `
-
-            <td>
-                ${item.name}
-            </td>
-
-            <td>
-                ₹${item.price}
-            </td>
-
-            <td>
-                ${item.quantity}
-            </td>
-
-            <td>
-                ₹${subtotal}
-            </td>
-
-        `;
-
-
-        itemsContainer.appendChild(row);
-
-    });
-
-
-    // Total
-    document.getElementById(
-        "successTotal"
-    ).textContent =
-        "₹" + order.total;
-
-}
-
-
-// ========================================
-// LOAD PREVIOUS ORDER
-// ========================================
-
-function loadLastOrder() {
-
-    const successBox =
-        document.getElementById("successBox");
-
-
-    if (!successBox) {
-        return;
-    }
-
-
-    const lastOrder =
-        JSON.parse(
-            localStorage.getItem("lastOrder")
-        );
-
-
-    if (lastOrder) {
-
-        showOrderSuccess(lastOrder);
-
-    }
-
+    window.location.href =
+        "order-success.html";
 }
 
 
@@ -452,12 +339,8 @@ document.addEventListener(
 
         loadCheckout();
 
-        loadLastOrder();
-
-
         const orderForm =
             document.getElementById("orderForm");
-
 
         if (orderForm) {
 

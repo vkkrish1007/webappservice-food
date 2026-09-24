@@ -1,0 +1,1007 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QuickBite - Order Success</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            color: #333;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #333;
+        }
+
+
+        /* MAIN */
+
+        .success-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+
+        /* SUCCESS */
+
+        .success-header {
+            background: white;
+            text-align: center;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .success-icon {
+            width: 70px;
+            height: 70px;
+            margin: auto;
+            border-radius: 50%;
+            background: #28a745;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .success-header h1 {
+            margin: 15px 0 10px;
+        }
+
+
+        /* ORDER ID */
+
+        .order-id-box {
+            display: inline-flex;
+            flex-direction: column;
+            margin-top: 15px;
+            padding: 12px 25px;
+            background: #fff3e6;
+            border-radius: 8px;
+        }
+
+        .order-id-box span {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .order-id-box strong {
+            font-size: 20px;
+            margin-top: 5px;
+        }
+
+
+        /* STATUS */
+
+        .status-card {
+            margin-top: 20px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .status-card h2 {
+            margin-top: 0;
+        }
+
+        #statusMessage {
+            color: #666;
+        }
+
+
+        /* PROGRESS */
+
+        .order-progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .progress-step {
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .progress-icon {
+            width: 45px;
+            height: 45px;
+            margin: auto;
+            border-radius: 50%;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .progress-step.active .progress-icon {
+            background: #28a745;
+            color: white;
+        }
+
+        .progress-step span {
+            display: block;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .progress-line {
+            width: 60px;
+            height: 3px;
+            background: #28a745;
+        }
+
+
+        /* CARDS */
+
+        .success-card {
+            background: white;
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .success-card h2 {
+            margin-top: 0;
+        }
+
+
+        /* DETAILS */
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row span {
+            color: #777;
+        }
+
+        .detail-row strong {
+            text-align: right;
+        }
+
+
+        /* ITEMS */
+
+        .success-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .success-item:last-child {
+            border-bottom: none;
+        }
+
+        .success-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .success-item-info span {
+            color: #777;
+            font-size: 14px;
+        }
+
+
+        /* PRICE */
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+
+        .price-total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 15px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+
+        /* BUTTONS */
+
+        .success-actions {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .success-actions a {
+            display: inline-block;
+            padding: 13px 22px;
+            margin: 5px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .continue-btn {
+            background: #ff6b00;
+            color: white;
+        }
+
+        .home-btn {
+            background: #ddd;
+            color: #333;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .success-container {
+                margin: 20px auto;
+                padding: 10px;
+            }
+
+            .order-progress {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .progress-line {
+                width: 3px;
+                height: 30px;
+            }
+
+            .success-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .detail-row {
+                flex-direction: column;
+            }
+
+            .detail-row strong {
+                text-align: left;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ========================================
+     NAVBAR
+========================================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        🍔 QuickBite
+    </div>
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="menu.html">
+            Menu
+        </a>
+
+        <a href="cart.html">
+            Cart 🛒
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- ========================================
+     MAIN
+========================================= -->
+
+<main class="success-container">
+
+
+    <!-- SUCCESS MESSAGE -->
+
+    <section class="success-header">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <h1>
+            Order Placed Successfully!
+        </h1>
+
+        <p>
+            Thank you for ordering with QuickBite.
+        </p>
+
+        <div class="order-id-box">
+
+            <span>
+                Order ID
+            </span>
+
+            <strong id="orderId">
+                Loading...
+            </strong>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================
+         ORDER STATUS
+    ========================================= -->
+
+    <section class="status-card">
+
+        <h2 id="statusTitle">
+            🍳 Your Order is Being Prepared
+        </h2>
+
+        <p id="statusMessage">
+            Your order has been received.
+            Our restaurant is preparing your food.
+        </p>
+
+
+        <div class="order-progress">
+
+
+            <div class="progress-step active">
+
+                <div class="progress-icon">
+                    ✓
+                </div>
+
+                <span>
+                    Order Placed
+                </span>
+
+            </div>
+
+
+            <div class="progress-line"></div>
+
+
+            <div class="progress-step active">
+
+                <div class="progress-icon">
+                    👨‍🍳
+                </div>
+
+                <span>
+                    Preparing
+                </span>
+
+            </div>
+
+
+            <div class="progress-line"></div>
+
+
+            <div class="progress-step">
+
+                <div class="progress-icon">
+                    🛵
+                </div>
+
+                <span>
+                    Delivery
+                </span>
+
+            </div>
+
+
+            <div class="progress-line"></div>
+
+
+            <div class="progress-step">
+
+                <div class="progress-icon">
+                    ✓
+                </div>
+
+                <span>
+                    Delivered
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================
+         CUSTOMER + PAYMENT
+    ========================================= -->
+
+    <div
+        class="success-grid"
+        style="
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:20px;
+        "
+    >
+
+
+        <!-- CUSTOMER -->
+
+        <section class="success-card">
+
+            <h2>
+                👤 Customer Details
+            </h2>
+
+            <div class="detail-row">
+
+                <span>
+                    Full Name
+                </span>
+
+                <strong id="customerName">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>
+                    Phone Number
+                </span>
+
+                <strong id="customerPhone">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>
+                    Delivery Address
+                </span>
+
+                <strong id="customerAddress">
+                    -
+                </strong>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PAYMENT -->
+
+        <section class="success-card">
+
+            <h2>
+                💳 Payment Details
+            </h2>
+
+            <div class="detail-row">
+
+                <span>
+                    Payment Method
+                </span>
+
+                <strong id="paymentMethod">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div
+                class="detail-row"
+                id="upiRow"
+                style="display:none;"
+            >
+
+                <span>
+                    UPI ID
+                </span>
+
+                <strong id="upiId">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>
+                    Order Date
+                </span>
+
+                <strong id="orderDate">
+                    -
+                </strong>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+
+    <!-- ========================================
+         ORDER ITEMS
+    ========================================= -->
+
+    <section class="success-card">
+
+        <h2>
+            🍔 Ordered Items
+        </h2>
+
+        <div id="orderItems">
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================
+         PRICE SUMMARY
+    ========================================= -->
+
+    <section class="success-card">
+
+        <h2>
+            💰 Order Summary
+        </h2>
+
+
+        <div class="price-row">
+
+            <span>
+                Subtotal
+            </span>
+
+            <strong id="orderSubtotal">
+                ₹0
+            </strong>
+
+        </div>
+
+
+        <div class="price-row">
+
+            <span>
+                Delivery
+            </span>
+
+            <strong id="orderDelivery">
+                ₹0
+            </strong>
+
+        </div>
+
+
+        <hr>
+
+
+        <div class="price-total">
+
+            <span>
+                Total
+            </span>
+
+            <strong id="orderTotal">
+                ₹0
+            </strong>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================
+         BUTTONS
+    ========================================= -->
+
+    <div class="success-actions">
+
+        <a
+            href="menu.html"
+            class="continue-btn"
+        >
+            🍔 Order More Food
+        </a>
+
+
+        <a
+            href="index.html"
+            class="home-btn"
+        >
+            🏠 Back to Home
+        </a>
+
+    </div>
+
+
+</main>
+
+
+
+<!-- ========================================
+     FOOTER
+========================================= -->
+
+<footer style="text-align:center; padding:20px;">
+
+    <p>
+        © 2026 QuickBite. All Rights Reserved.
+    </p>
+
+</footer>
+
+
+
+<!-- ========================================
+     JAVASCRIPT
+========================================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        // Get saved order
+
+        const order =
+            JSON.parse(
+                localStorage.getItem("latestOrder")
+            );
+
+
+        // ====================================
+        // NO ORDER
+        // ====================================
+
+        if (!order) {
+
+            document.querySelector(
+                ".success-container"
+            ).innerHTML = `
+
+                <section
+                    class="success-card"
+                    style="text-align:center;"
+                >
+
+                    <h1>
+                        No Order Found
+                    </h1>
+
+                    <p>
+                        Please place an order first.
+                    </p>
+
+                    <a
+                        href="menu.html"
+                        class="continue-btn"
+                    >
+                        Go to Menu
+                    </a>
+
+                </section>
+
+            `;
+
+            return;
+
+        }
+
+
+        // ====================================
+        // ORDER ID
+        // ====================================
+
+        document.getElementById(
+            "orderId"
+        ).textContent =
+            order.orderId || "QB00000000";
+
+
+        // ====================================
+        // CUSTOMER
+        // ====================================
+
+        if (order.customer) {
+
+            document.getElementById(
+                "customerName"
+            ).textContent =
+                order.customer.name || "-";
+
+
+            document.getElementById(
+                "customerPhone"
+            ).textContent =
+                order.customer.phone || "-";
+
+
+            document.getElementById(
+                "customerAddress"
+            ).textContent =
+                order.customer.address || "-";
+
+        }
+
+
+        // ====================================
+        // PAYMENT
+        // ====================================
+
+        if (order.paymentMethod === "COD") {
+
+            document.getElementById(
+                "paymentMethod"
+            ).textContent =
+                "Cash on Delivery";
+
+        }
+
+        else if (order.paymentMethod === "UPI") {
+
+            document.getElementById(
+                "paymentMethod"
+            ).textContent =
+                "UPI";
+
+
+            if (order.upiId) {
+
+                document.getElementById(
+                    "upiRow"
+                ).style.display =
+                    "flex";
+
+
+                document.getElementById(
+                    "upiId"
+                ).textContent =
+                    order.upiId;
+
+            }
+
+        }
+
+
+        // ====================================
+        // DATE
+        // ====================================
+
+        document.getElementById(
+            "orderDate"
+        ).textContent =
+            order.orderDate || "-";
+
+
+        // ====================================
+        // ORDER ITEMS
+        // ====================================
+
+        const itemsContainer =
+            document.getElementById(
+                "orderItems"
+            );
+
+
+        itemsContainer.innerHTML = "";
+
+
+        let calculatedSubtotal = 0;
+
+
+        if (
+            Array.isArray(order.items) &&
+            order.items.length > 0
+        ) {
+
+
+            order.items.forEach(
+                function (item) {
+
+
+                    const quantity =
+                        Number(item.quantity) || 1;
+
+
+                    const price =
+                        Number(item.price) || 0;
+
+
+                    const itemTotal =
+                        price * quantity;
+
+
+                    calculatedSubtotal +=
+                        itemTotal;
+
+
+                    const itemDiv =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    itemDiv.className =
+                        "success-item";
+
+
+                    itemDiv.innerHTML = `
+
+                        <div class="success-item-info">
+
+                            <strong>
+                                ${escapeHTML(
+                                    item.name
+                                )}
+                            </strong>
+
+                            <span>
+                                ₹${price} × ${quantity}
+                            </span>
+
+                        </div>
+
+                        <strong>
+                            ₹${itemTotal}
+                        </strong>
+
+                    `;
+
+
+                    itemsContainer.appendChild(
+                        itemDiv
+                    );
+
+                }
+            );
+
+        }
+
+
+        // ====================================
+        // SUBTOTAL
+        // ====================================
+
+        const subtotal =
+            Number(order.subtotal) ||
+            calculatedSubtotal;
+
+
+        const delivery =
+            Number(order.deliveryCharge) ||
+            0;
+
+
+        const total =
+            Number(order.total) ||
+            (subtotal + delivery);
+
+
+        document.getElementById(
+            "orderSubtotal"
+        ).textContent =
+            `₹${subtotal}`;
+
+
+        document.getElementById(
+            "orderDelivery"
+        ).textContent =
+            `₹${delivery}`;
+
+
+        document.getElementById(
+            "orderTotal"
+        ).textContent =
+            `₹${total}`;
+
+
+        // ====================================
+        // ESCAPE HTML
+        // ====================================
+
+        function escapeHTML(value) {
+
+            return String(value)
+
+                .replace(/&/g, "&amp;")
+
+                .replace(/</g, "&lt;")
+
+                .replace(/>/g, "&gt;")
+
+                .replace(/"/g, "&quot;")
+
+                .replace(/'/g, "&#039;");
+
+        }
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>
+
